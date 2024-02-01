@@ -6,17 +6,41 @@ import {signOut} from 'firebase/auth'
 
 import {
     addDoc,
-    collection
+    collection,
+    onSnapshot, //ter os dados em tempo real
+    query,
+    orderBy, //ter os dados de forma ordenada
+    where
 } from 'firebase/firestore'
 
 export default function Admin(){
     const [tarefaInput, setTarefaInput] = useState('');
     const [user, setUser] = useState({});
+    const [tarefas, setTarefas] = useState([]);
 
     useEffect(() => {
         async function loadTarefas(){
             const userDetail = localStorage.getItem("@detailUser")
-            setUser(JSON.parse(userDetail))
+            setUser(JSON.parse(userDetail));
+
+            if(userDetail){
+                const data = JSON.parse(userDetail);
+
+                const tarefaRef = collection(db, "tarefas");
+                const q = query(tarefaRef, orderBy("created", "desc"), where("userUid", "==", data?.uid));
+                const unsub = onSnapshot(q, (snapshot) => {
+                    let lista = [];
+
+                    snapshot.forEach((doc) => {
+                        lista.push({
+                            id: doc.id,
+                            tarefa: doc.data().tarefa,
+                            userUid: doc.data().userUid
+                        })
+                    })
+                    setTarefas(lista);
+                })
+            }
         }
 
         loadTarefas();
@@ -63,14 +87,16 @@ export default function Admin(){
                 <button className='btn-register' type='submit'>Registrar tarefa</button>
             </form>
 
-            <article className='list'>
-                <p>Estudaaaar</p>
+            {tarefas.map((item) => (
+                <article key={item.id} className='list'>
+                <p>{item.tarefa}</p>
 
                 <div>
                     <button>Editar</button>
                     <button className='btn-delete'>Concluir</button>
                 </div>
-            </article>
+                </article>
+            ))}
 
 
             <button className='btn-logout' onClick={handleLogout}>Sair</button>
