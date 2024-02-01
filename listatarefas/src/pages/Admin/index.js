@@ -10,7 +10,9 @@ import {
     onSnapshot, //ter os dados em tempo real
     query,
     orderBy, //ter os dados de forma ordenada
-    where
+    where,
+    doc,
+    deleteDoc
 } from 'firebase/firestore'
 
 export default function Admin(){
@@ -73,6 +75,11 @@ export default function Admin(){
         await signOut(auth);
     }
 
+    async function deleteTarefa(id){
+        const docRef = doc(db, "tarefas", id);
+        await deleteDoc(docRef);
+    }
+
     return(
         <div className='admin-container'>
             <h1>Minhas tarefas</h1>
@@ -93,7 +100,7 @@ export default function Admin(){
 
                 <div>
                     <button>Editar</button>
-                    <button className='btn-delete'>Concluir</button>
+                    <button onClick={() => deleteTarefa(item.id)} className='btn-delete'>Concluir</button>
                 </div>
                 </article>
             ))}
