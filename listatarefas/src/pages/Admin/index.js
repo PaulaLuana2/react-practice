@@ -12,13 +12,15 @@ import {
     orderBy, //ter os dados de forma ordenada
     where,
     doc,
-    deleteDoc
+    deleteDoc,
+    updateDoc,
 } from 'firebase/firestore'
 
 export default function Admin(){
     const [tarefaInput, setTarefaInput] = useState('');
     const [user, setUser] = useState({});
     const [tarefas, setTarefas] = useState([]);
+    const [edit, setEdit] = useState({});
 
     useEffect(() => {
         async function loadTarefas(){
@@ -56,6 +58,11 @@ export default function Admin(){
             return;
         }
 
+        if(edit?.id){
+            handleUpdateTarefa();
+            return;
+        }
+
         await addDoc(collection(db, "tarefas"), {
             tarefa: tarefaInput,
             created: new Date(),
@@ -80,6 +87,28 @@ export default function Admin(){
         await deleteDoc(docRef);
     }
 
+    function editTarefa(item){
+        setTarefaInput(item.tarefa);
+        setEdit(item);
+    }
+
+    async function handleUpdateTarefa(){
+        const docRef = doc(db, "tarefas", edit?.id);
+        await updateDoc(docRef, {
+            tarefa: tarefaInput
+        })
+        .then(() => {
+            alert("Tarefa editada com sucesso!");
+            setTarefaInput('');
+            setEdit({});
+        })
+        .catch(() => {
+            alert("Erro ao editar!")
+            setTarefaInput('');
+            setEdit({});
+        })
+    }
+
     return(
         <div className='admin-container'>
             <h1>Minhas tarefas</h1>
@@ -91,7 +120,11 @@ export default function Admin(){
                 onChange={(e) => setTarefaInput(e.target.value)}
                 />
 
-                <button className='btn-register' type='submit'>Registrar tarefa</button>
+                {Object.keys(edit).length > 0 ? (
+                    <button className='btn-register' style={{backgroundColor: '#6add39'}} type='submit'>Atualizar tarefa</button>
+                ) : (
+                    <button className='btn-register' type='submit'>Registrar tarefa</button>
+                )}
             </form>
 
             {tarefas.map((item) => (
@@ -99,7 +132,7 @@ export default function Admin(){
                 <p>{item.tarefa}</p>
 
                 <div>
-                    <button>Editar</button>
+                    <button onClick={() => editTarefa(item)}>Editar</button>
                     <button onClick={() => deleteTarefa(item.id)} className='btn-delete'>Concluir</button>
                 </div>
                 </article>
