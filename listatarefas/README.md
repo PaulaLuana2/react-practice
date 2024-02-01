@@ -8,8 +8,5 @@ O presente projeto faz a listagem de tarefas tendo como características:
 * Controle de login. (A página de tarefas só pode ser acessada se o usuário estiver logado).
 * CRUD de lista de tarefas.
 
-A seguir, pode-se conferir essas funcionalidades no breve vídeo.
-
-<video width="500" height="500" controls>
-  <source src="apresentacao.mp4" type="video/mp4">
-</video>
+A seguir, pode-se conferir essas funcionalidades:
+![](apresentacao.gif)
