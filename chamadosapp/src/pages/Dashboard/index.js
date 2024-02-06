@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
+import  Modal from '../../components/Modal';
 
 import './dashboard.css'
 import { format } from 'date-fns';
@@ -20,6 +21,9 @@ export default function Dashboard(){
     const [isEmpty, setIsEmpty] = useState(false);
     const [lastDocs, setLastDocs] = useState();
     const [loadingMore, setLoadingMore] = useState(false);
+
+    const [showPostModal, setShowPostModal] = useState(false);
+    const [detail, setDetail] = useState();
     
     useEffect (() => {
         async function loadChamados(){
@@ -73,6 +77,11 @@ export default function Dashboard(){
         const q = query(listRef, orderBy('created', 'desc'), startAfter(lastDocs), limit(5));
         const querySnapshot = await getDocs(q);
         await updateState(querySnapshot);
+    }
+
+    function toggleModal(item){
+        setShowPostModal(!showPostModal);
+        setDetail(item);
     }
 
     if(loading){
@@ -141,7 +150,7 @@ export default function Dashboard(){
                                             </td>
                                             <td data-label="Cadastrado">{item.createdFormat}</td>
                                             <td data-label="#">
-                                                <button className='action' style={{backgroundColor: '#3583f6'}}>
+                                                <button className='action' style={{backgroundColor: '#3583f6'}} onClick={() => toggleModal(item)}>
                                                     <FiSearch color='#fff' size={17}/>
                                                 </button>
                                                 <Link to={`/new/${item.id}`} className='action' style={{backgroundColor: '#f6a935'}}>
@@ -161,6 +170,14 @@ export default function Dashboard(){
                     )}
                 </>
             </div>
+
+            {showPostModal && (
+                <Modal
+                    conteudo={detail}
+                    close={() => setShowPostModal(!showPostModal)}
+                />
+            )}
+
         </div>
     )
 }

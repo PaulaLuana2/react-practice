@@ -1,0 +1,85 @@
+.modal{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 99;
+}
+
+.modal .container{
+    position: fixed;
+    max-width: 600px;
+    top: 15%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 4em 2em;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.textCad{
+    top: 60px;
+    position: absolute;
+    display: flex;
+}
+
+.modalStatus{
+    top: 55px;
+    color: #fff;
+    padding: 3px 3px;
+    border-radius: 6px;
+    text-align: center;
+    width: 200px;
+    left: 280px;
+    position: absolute;
+
+}
+
+.close{
+    background-color: transparent;
+    border: 0;
+    right: 20px;
+    top:8px;
+    border-radius: 5px;
+    position: absolute;
+    display: flex;
+}
+
+.close svg{
+    margin-right: 5px;
+}
+
+.modal h3{
+    top: 20px;
+    position: absolute;
+    display: flex;
+    color: rgb(77, 75, 75);
+}
+
+.modal span{
+    font-size: 0.9em;
+}
+
+.row{
+    margin-top: 25px;;
+    margin-bottom: 1em;
+}
+
+.complement{
+    padding-top: 0.5em;
+    white-space: pre-wrap; /*quebra o texto para ir descendo*/
+    line-height: 150%; /*Espaçamento entre as linhas*/
+}
+
+.boxClient{
+    padding: 2px 5px;
+    color: rgb(77, 75, 75);
+    font-weight: bold;
+    font-size: 1.5em;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
