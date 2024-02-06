@@ -128,18 +128,25 @@ export default function Dashboard(){
                                             <td data-label="Cliente">{item.cliente}</td>
                                             <td data-label="Assunto">{item.assunto}</td>
                                             <td data-label="Status">
-                                                <span className='badge' style={{backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999'}}>
-                                                    {item.status}
-                                                </span>
+                                                {item.status !== 'Aberto' ? 
+                                                    <div className="boxStatus" style={{backgroundColor: item.status === 'Atendido' ? '#5cb85c' : '#f6b600'}}>
+                                                        <span>{item.status}</span>
+                                                    </div>
+                                                    :
+                                                    <div className="boxStatus" style={{backgroundColor: '#e44343'}}>
+                                                        <span>{item.status}</span>
+                                                    </div>
+                                                }
+                                
                                             </td>
                                             <td data-label="Cadastrado">{item.createdFormat}</td>
                                             <td data-label="#">
                                                 <button className='action' style={{backgroundColor: '#3583f6'}}>
                                                     <FiSearch color='#fff' size={17}/>
                                                 </button>
-                                                <button className='action' style={{backgroundColor: '#f6a935'}}>
+                                                <Link to={`/new/${item.id}`} className='action' style={{backgroundColor: '#f6a935'}}>
                                                     <FiEdit2 color='#fff' size={17}/>
-                                                </button>
+                                                </Link>
                                             </td>
                                         </tr>
                                     )

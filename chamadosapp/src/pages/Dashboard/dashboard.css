@@ -68,14 +68,18 @@ table td .action{
     margin-right: 3px;
 }
 
-table td .action svg{
-    vertical-align: middle;
+.boxStatus{
+    color: #fff;
+    padding: 3px 3px;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto; 
+    text-align: center;
+    max-width: 100px;
 }
 
-table td .badge{
-    padding: 3px;
-    border-radius: 3px;
-    color: #fff;
+table td .action svg{
+    vertical-align: middle;
 }
 
 .dashboard span{
@@ -124,6 +128,15 @@ table td .badge{
         display: block;
         font-size: 0.8em;
         text-align: right;
+    }
+
+    table td .boxStatus{
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: 0.8em;
+        text-align: right;
+        max-width: 50px;
+        margin-right: 0;
     }
 
     table td:before{
