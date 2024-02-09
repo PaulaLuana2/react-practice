@@ -11,6 +11,7 @@ export default function Main(){
   const [repositorios, setRepositorios] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Buscar
   useEffect(()=>{
@@ -30,6 +31,7 @@ export default function Main(){
       try{
 
         if(newRepo === ''){
+          setErrorMessage('Você precisa indicar um repositorio!');
           throw new Error('Você precisa indicar um repositorio!');
         }
 
@@ -38,7 +40,8 @@ export default function Main(){
         const hasRepo = repositorios.find(repo => repo.name === newRepo);
 
         if(hasRepo){
-          throw new Error('Repositorio Duplicado');
+          setErrorMessage('Repositorio duplicado');
+          throw new Error('Repositorio duplicado');
         }
   
         const data = {
@@ -49,6 +52,8 @@ export default function Main(){
         localStorage.setItem("@repos", JSON.stringify(repositorios));
         setNewRepo('');
       }catch(error){
+        if(error.code === 'ERR_BAD_REQUEST') setErrorMessage("Repositório não encontrado");
+
         setAlert(true);
         console.log(error);
       }finally{
@@ -64,6 +69,7 @@ export default function Main(){
   function handleinputChange(e){
     setNewRepo(e.target.value);
     setAlert(null);
+    setErrorMessage('');
   }
 
   const handleDelete = useCallback((repo)=> {
@@ -97,6 +103,8 @@ export default function Main(){
         </SubmitButton>
 
       </Form>
+
+      <p style={{color: 'red'}}>{errorMessage}</p>
 
       <List>
          {repositorios.map(repo => (
